@@ -7,13 +7,11 @@ RUN apt-get update
 # Install tools                                  #
 ##################################################
 
-RUN apt-get install -y libavahi-compat-libdnssd-dev libkrb5-dev net-tools 
 RUN apt-get install -y build-essential make g++ 
-RUN apt-get install -y libnss-mdns libavahi-compat-libdnssd-dev
+RUN apt-get install -y libkrb5-dev net-tools 
+RUN apt-get install -y libnss-mdns 
+RUN apt-get install -y avahi-daemon avahi-utils libavahi-compat-libdnssd-dev dbus
 
-RUN alias ll='ls -alG'
-
-RUN apt-get install -y avahi-daemon avahi-utils 
 
 USER root
 RUN mkdir -p /var/run/dbus
@@ -25,6 +23,11 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD scripts/run.sh /root/run.sh 
 ADD scripts/npm-install /root/npm-install
 ADD scripts/rm-persist /root/rm-persist
+
+RUN sed -i "s/rlimit-nproc=3/#rlimit-nproc=3/" /etc/avahi/avahi-daemon.conf
+RUN dbus-daemon --system
+RUN avahi-daemon -D 
+
 
 EXPOSE 5353 51826 51827
 

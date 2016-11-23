@@ -7,7 +7,9 @@ RUN apt-get update
 # Install tools                                  #
 ##################################################
 
-RUN apt-get install -y curl wget git apt-transport-https python build-essential make g++ libavahi-compat-libdnssd-dev libkrb5-dev net-tools 
+RUN apt-get install -y libavahi-compat-libdnssd-dev libkrb5-dev net-tools 
+RUN apt-get install -y build-essential make g++ 
+RUN apt-get install -y libnss-mdns libavahi-compat-libdnssd-dev
 
 RUN alias ll='ls -alG'
 

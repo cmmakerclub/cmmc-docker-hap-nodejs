@@ -16,18 +16,8 @@ RUN alias ll='ls -alG'
 
 RUN apt-get install -y avahi-daemon avahi-utils 
 
-RUN apt-get install -y apt-utils 
-RUN apt-get install -y apt-transport-https
-RUN apt-get install -y locales
-RUN apt-get install -y curl wget git python build-essential make g++ libavahi-compat-libdnssd-dev libkrb5-dev vim net-tools nano
-
-
 USER root
-WORKDIR /root 
-
 RUN mkdir -p /var/run/dbus
-
-
 
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

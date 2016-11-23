@@ -24,8 +24,8 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
 ADD run.sh /root/run.sh 
-ADD boot.sh /root/boot.sh 
-ADD init.sh /root/init.sh 
+ADD npm-install /root/npm-install
+ADD rm-persist /root/rm-persist
 
 EXPOSE 5353 51826 51827
 

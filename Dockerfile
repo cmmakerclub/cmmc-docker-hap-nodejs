@@ -14,19 +14,16 @@ RUN alias ll='ls -alG'
 RUN apt-get install -y avahi-daemon avahi-utils 
 
 USER root
-
 RUN mkdir -p /var/run/dbus
 
-EXPOSE 5353 51826 
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
-WORKDIR /root
-
-RUN git clone https://github.com/KhaosT/HAP-NodeJS.git 
-
-WORKDIR /root/HAP-NodeJS 
-RUN npm install
 
 ADD run.sh /root/run.sh 
+ADD npm-install /root/npm-install
+ADD rm-persist /root/rm-persist
+
+EXPOSE 5353 51826 51827
 
 CMD ["/root/run.sh"]

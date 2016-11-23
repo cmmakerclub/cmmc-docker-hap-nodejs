@@ -23,9 +23,9 @@ RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
-ADD run.sh /root/run.sh 
-ADD npm-install /root/npm-install
-ADD rm-persist /root/rm-persist
+ADD scripts/run.sh /root/run.sh 
+ADD scripts/npm-install /root/npm-install
+ADD scripts/rm-persist /root/rm-persist
 
 EXPOSE 5353 51826 51827
 

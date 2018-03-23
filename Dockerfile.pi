@@ -8,26 +8,39 @@ RUN apt-get update
 ##################################################
 
 RUN apt-get install -y build-essential make g++ 
-RUN apt-get install -y libkrb5-dev net-tools 
-RUN apt-get install -y libnss-mdns 
 RUN apt-get install -y avahi-daemon avahi-utils libavahi-compat-libdnssd-dev dbus
 
 
-USER root
+RUN mkdir -p /home/node/.npm-global/lib
 RUN mkdir -p /var/run/dbus
+RUN mkdir -p /usr/src/app
 
-RUN apt-get clean
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+ENV PATH=$PATH:/home/node/.npm-global/bin
+
+
+USER root
+WORKDIR /usr/src/app
+
+
+RUN npm config set unsafe-perm=true
+RUN node --version
+RUN npm --version
+RUN npm update -g
+RUN npm --version
+RUN npm config set prefix $NPM_CONFIG_PREFIX
+
+RUN npm install -g hap-nodejs
+RUN npm link hap-nodejs
 
 
 ADD scripts/run.sh /root/run.sh 
 ADD scripts/npm-install /root/npm-install
 ADD scripts/rm-persist /root/rm-persist
 
-RUN sed -i "s/rlimit-nproc=3/#rlimit-nproc=3/" /etc/avahi/avahi-daemon.conf
-RUN dbus-daemon --system
-RUN avahi-daemon -D 
 
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 5353 51826 51827
 
